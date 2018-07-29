@@ -7,13 +7,21 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        Title="Input" Height="160" Width="300">
+        Title="Input"
+        Height="160"
+        Width="300">
     <StackPanel Orientation="Vertical">
-        <TextBlock Name="TextBlock" Margin="10" />
-        <TextBox Name="TextBox" Margin="10" />
+        <TextBlock Name="TextBlock"
+                   Margin="10" />
+        <TextBox Name="TextBox"
+                 Margin="10" />
         <UniformGrid>
-            <Button Content="Cancel" Click="Cancel" Margin="10" />
-            <Button Content="OK" Click="Submit" Margin="10" />
+            <Button Content="Cancel"
+                    Click="Cancel"
+                    Margin="10" />
+            <Button Content="OK"
+                    Click="Submit"
+                    Margin="10" />
         </UniformGrid>
     </StackPanel>
 </Window>

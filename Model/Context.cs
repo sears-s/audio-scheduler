@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler.Model
 {
-    public class Context : DbContext
+    public sealed class Context : DbContext
     {
         public Context()
         {

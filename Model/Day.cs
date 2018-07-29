@@ -9,7 +9,7 @@ namespace AudioScheduler.Model
     {
         [Key] public int Id { get; set; }
 
-        [Required] public DateTime Date { get; set; }
+        [Required] public DateTime Date { get; private set; }
 
         public virtual ICollection<Event> Events { get; set; }
 

@@ -9,7 +9,7 @@ namespace AudioScheduler.Model
     {
         [Key] public int Id { get; set; }
 
-        [Required] public string Name { get; set; }
+        [Required] public string Name { get; private set; }
 
         public virtual ICollection<Event> Events { get; set; }
 
@@ -41,47 +41,6 @@ namespace AudioScheduler.Model
             catch (Exception e)
             {
                 App.ErrorMessage("Error adding template to database.", e);
-            }
-        }
-
-        // Add Event to Template
-        public static void AddEvent(int templateId, int soundId, string time)
-        {
-            try
-            {
-                using (var db = new Context())
-                {
-                    // Find sound with id
-                    var sound = db.Sounds.Find(soundId);
-                    if (sound == null)
-                    {
-                        App.ErrorMessage($"Could not find sound with ID #{soundId} in database.");
-                        return;
-                    }
-
-                    // Create event object
-                    var newEvent = new Event
-                    {
-                        Sound = sound,
-                        Time = time
-                    };
-
-                    // Find template with id
-                    var template = db.Templates.Find(templateId);
-                    if (template == null)
-                    {
-                        App.ErrorMessage($"Could not find template with ID #{templateId} in database.");
-                        return;
-                    }
-
-                    // Add the event to the template
-                    template.Events.Add(newEvent);
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
-                App.ErrorMessage("Error adding event to template in database.", e);
             }
         }
 

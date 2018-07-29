@@ -7,17 +7,30 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        Title="Play TTS Sound" Height="250" Width="325">
+        Title="Play TTS Sound"
+        Height="250"
+        Width="325">
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Enter the text you would like to convert to speech." Margin="10" />
-        <TextBox Name="TextBox" TextWrapping="Wrap" Height="75" Margin="10" />
+        <TextBlock Text="Enter the text you would like to convert to speech."
+                   Margin="10" />
+        <TextBox Name="TextBox"
+                 TextWrapping="Wrap"
+                 Height="75"
+                 Margin="10" />
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Select Voice:" Margin="10" />
-            <ComboBox Name="Voices" Width="200" Margin="10" />
+            <TextBlock Text="Select Voice:"
+                       Margin="10" />
+            <ComboBox Name="Voices"
+                      Width="200"
+                      Margin="10" />
         </StackPanel>
         <UniformGrid Columns="2">
-            <Button Content="Cancel" Click="Play" Margin="10" />
-            <Button Content="Play" Click="Play" Margin="10" />
+            <Button Content="Cancel"
+                    Click="Cancel"
+                    Margin="10" />
+            <Button Content="Play"
+                    Click="Play"
+                    Margin="10" />
         </UniformGrid>
     </StackPanel>
 </Window>

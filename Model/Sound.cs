@@ -11,9 +11,9 @@ namespace AudioScheduler.Model
     {
         [Key] public int Id { get; set; }
 
-        [Required] public string Name { get; set; }
+        [Required] public string Name { get; private set; }
 
-        [Required] public string FilePath { get; set; }
+        [Required] public string FilePath { get; private set; }
 
         // Add sound to database
         public static void AddFile(string name, string path)

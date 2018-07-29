@@ -117,6 +117,7 @@ namespace AudioScheduler
                 // Play Sound if one is found
                 if (sound != null) AudioController.PlaySound(sound);
             }
+
             // ReSharper disable once FunctionNeverReturns
         }
 
