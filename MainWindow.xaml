@@ -4,9 +4,105 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioScheduler"
+        xmlns:model="clr-namespace:AudioScheduler.Model"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Audio Scheduler"
+        Height="350"
+        Width="700">
+    <Window.Resources>
+        <CollectionViewSource x:Key="EventViewSource"
+                              d:DesignSource="{d:DesignInstance {x:Type model:Event}, CreateList=True}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="SortTime"
+                                                Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0"
+              DataContext="{DynamicResource EventViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Text="Today's Schedule"
+                       TextAlignment="Center" />
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserSortColumns="False"
+                      IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridComboBoxColumn x:Name="SoundDg"
+                                            SelectedItemBinding="{Binding Sound}"
+                                            SelectedValuePath="Id"
+                                            DisplayMemberPath="Name"
+                                            Header="Sound"
+                                            Width="0.6*" />
+                    <DataGridTextColumn x:Name="Time"
+                                        Binding="{Binding Time}"
+                                        Header="Time"
+                                        Width="0.4*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <UniformGrid Grid.Column="1"
+                     Columns="1"
+                     Rows="7">
+            <TextBlock TextAlignment="Center"
+                       Text="Currently Playing:"
+                       Margin="10 10 10 0" />
+            <TextBlock Name="PlayingTb"
+                       TextAlignment="Center"
+                       Text="{Binding Source={x:Static local:AudioController.Playing}}"
+                       Margin="10 0 10 10" />
+            <TextBlock Text="Select a sound:"
+                       TextAlignment="Center"
+                       Margin="10 10 10 0" />
+            <ComboBox Name="SoundCb"
+                      DisplayMemberPath="Name"
+                      SelectedIndex="0"
+                      Margin="30 0 30 20" />
+            <Button Content="Play"
+                    Click="PlaySound"
+                    Margin="60 10 60 10" />
+            <Button Content="Play TTS"
+                    Click="PlayTts"
+                    Margin="60 10 60 10" />
+            <Button Content="Stop Playing"
+                    Click="StopSound"
+                    Margin="60 10 60 10" />
+        </UniformGrid>
+        <UniformGrid Grid.Column="2"
+                     Columns="1"
+                     Rows="5">
+            <Button Content="Edit Schedule"
+                    Click="OpenEditDays"
+                    Margin="20" />
+            <Button Content="Edit Sounds"
+                    Click="OpenEditSounds"
+                    Margin="20" />
+            <Button Content="Edit Templates"
+                    Click="OpenEditTemplates"
+                    Margin="20" />
+            <Button Content="Settings"
+                    Click="OpenSettings"
+                    Margin="20" />
+            <Button Content="Help"
+                    Click="OpenHelp"
+                    Margin="20" />
+        </UniformGrid>
     </Grid>
 </Window>

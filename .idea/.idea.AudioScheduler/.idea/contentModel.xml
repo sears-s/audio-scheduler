@@ -6,18 +6,58 @@
       <e p="App.config" t="Include" />
       <e p="App.xaml" t="Include" />
       <e p="App.xaml.cs" t="Include" />
+      <e p="AudioController.cs" t="Include" />
       <e p="AudioScheduler.csproj" t="IncludeRecursive" />
       <e p="AudioScheduler.sln" t="IncludeFlat" />
       <e p="bin" t="ExcludeRecursive" />
+      <e p="Days" t="Include">
+        <e p="EditAll.xaml" t="Include" />
+        <e p="EditAll.xaml.cs" t="Include" />
+      </e>
+      <e p="Help.xaml" t="Include" />
+      <e p="Help.xaml.cs" t="Include" />
+      <e p="Input.xaml" t="Include" />
+      <e p="Input.xaml.cs" t="Include" />
       <e p="MainWindow.xaml" t="Include" />
       <e p="MainWindow.xaml.cs" t="Include" />
+      <e p="Model" t="Include">
+        <e p="Context.cs" t="Include" />
+        <e p="Day.cs" t="Include" />
+        <e p="Event.cs" t="Include" />
+        <e p="Sound.cs" t="Include" />
+        <e p="Template.cs" t="Include" />
+      </e>
       <e p="obj" t="ExcludeRecursive" />
-      <e p="packages" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive">
+        <e p="SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\runtimes\win-x64\native\e_sqlite3.dll" t="Include" />
+        <e p="SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.11\runtimes\win-x86\native\e_sqlite3.dll" t="Include" />
+      </e>
+      <e p="packages.config" t="Include" />
+      <e p="PlayTts.xaml" t="Include" />
+      <e p="PlayTts.xaml.cs" t="Include" />
       <e p="Properties" t="Include">
         <e p="AssemblyInfo.cs" t="Include" />
         <e p="Resources.Designer.cs" t="Include" />
         <e p="Resources.resx" t="Include" />
       </e>
+      <e p="Settings.xaml" t="Include" />
+      <e p="Settings.xaml.cs" t="Include" />
+      <e p="Sounds" t="Include">
+        <e p="AddTts.xaml" t="Include" />
+        <e p="AddTts.xaml.cs" t="Include" />
+        <e p="EditAll.xaml" t="Include" />
+        <e p="EditAll.xaml.cs" t="Include" />
+      </e>
+      <e p="Templates" t="Include">
+        <e p="EditAll.xaml" t="Include" />
+        <e p="EditAll.xaml.cs" t="Include" />
+        <e p="EditOne.xaml" t="Include" />
+        <e p="EditOne.xaml.cs" t="Include" />
+        <e p="ImportOne.xaml" t="Include" />
+        <e p="ImportOne.xaml.cs" t="Include" />
+      </e>
+      <e p="x64" t="Include" />
+      <e p="x86" t="Include" />
     </e>
   </component>
 </project>
