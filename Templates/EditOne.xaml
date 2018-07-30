@@ -16,7 +16,7 @@
         <CollectionViewSource x:Key="EventViewSource"
                               d:DesignSource="{d:DesignInstance {x:Type model:Event}, CreateList=True}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="SortTime"
+                <scm:SortDescription PropertyName="Time"
                                      Direction="Ascending" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
@@ -33,7 +33,6 @@
                   CanUserResizeColumns="False"
                   CanUserResizeRows="False"
                   CanUserSortColumns="False"
-                  CellEditEnding="CellEditEnding"
                   CanUserAddRows="True">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn x:Name="Sound"
@@ -43,7 +42,7 @@
                                         Header="Sound"
                                         Width="0.6*" />
                 <DataGridTextColumn x:Name="Time"
-                                    Binding="{Binding Time}"
+                                    Binding="{Binding TimeString}"
                                     Header="Time"
                                     Width="0.4*" />
             </DataGrid.Columns>

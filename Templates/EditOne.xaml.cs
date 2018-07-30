@@ -72,19 +72,5 @@ namespace AudioScheduler.Templates
                 _db.Events.Add(ev);
             }
         }
-
-        private void CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            // Exit if not Time column or cell text is null
-            if (!(e.EditingElement is TextBox t) || !Equals(e.Column, Time)) return;
-
-            // Get the formatted time
-            var result = App.FormatTime(t.Text);
-
-            // Show error if wrong format, then set to formatted time
-            if (result == null)
-                App.InfoMessage("Time Format", "Incorrect time format. Should be HHMM, HMM, HH:MM, or H:MM.");
-            t.Text = result;
-        }
     }
 }

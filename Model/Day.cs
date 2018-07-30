@@ -39,11 +39,11 @@ namespace AudioScheduler.Model
             }
             catch (Exception e)
             {
-                App.ErrorMessage("Error adding date to database.", e);
+                App.ErrorMessage($"Error adding date {date.ToShortDateString()} to database.", e);
             }
         }
 
-        public static List<DateTime> AllWithEvent()
+        public static IEnumerable<DateTime> AllWithEvent()
         {
             try
             {

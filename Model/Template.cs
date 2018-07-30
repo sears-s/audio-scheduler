@@ -98,7 +98,7 @@ namespace AudioScheduler.Model
         }
 
         // Return all Templates in database
-        public static List<Template> Fetch()
+        public static IEnumerable<Template> Fetch()
         {
             try
             {
@@ -115,7 +115,7 @@ namespace AudioScheduler.Model
         }
 
         // Return all Events for a Template
-        public static List<Event> FetchEvents(int id, Context db = null)
+        public static IEnumerable<Event> FetchEvents(int id, Context db = null)
         {
             if (db == null)
                 using (db = new Context())

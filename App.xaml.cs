@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +13,7 @@ namespace AudioScheduler
         public const string DatabaseFile = "data.db";
         public const string SoundDirectory = @".\sounds\";
         public const string NextDayTime = "02:00";
+        public static readonly int NextDayTimeInt = int.Parse(NextDayTime.Remove(2, 1));
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -79,23 +79,6 @@ namespace AudioScheduler
         public static void InfoMessage(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        // Format 24 hour time
-        public static string FormatTime(string input)
-        {
-            // Check if null string or too short
-            if (input == null || input.Length < 3) return null;
-
-            // Prepend 0 if length of 3
-            if (input.Length == 3 || input.Length == 4 && input.Contains(":")) input = input.Insert(0, "0");
-
-            // Add colon if not already there
-            if (!input.Contains(":")) input = input.Insert(2, ":");
-
-            // Check if valid time via regex
-            var regex = new Regex(@"^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
-            return regex.Match(input).Success ? input : null;
         }
 
         // Runs once a minute and checks if a Sound should play

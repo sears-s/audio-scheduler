@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AudioScheduler.Model
 {
@@ -8,19 +9,18 @@ namespace AudioScheduler.Model
 
         [Required] public virtual Sound Sound { get; set; }
 
-        [Required] public string Time { get; set; }
-
-        public int SortTime
+        [Required]
+        [Column("Time")]
+        public string TimeString
         {
             get
             {
-                var nextDayTime = int.Parse(App.NextDayTime.Remove(2, 1));
-                if (App.FormatTime(Time) == null) return nextDayTime + 2400;
-
-                var time = int.Parse(Time.Remove(2, 1));
-                if (time < nextDayTime) time += 2400;
-                return time;
+                if (Time == null) return "";
+                return Time;
             }
+            set => Time = value;
         }
+
+        [NotMapped] public Time Time { get; set; }
     }
 }

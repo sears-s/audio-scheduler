@@ -26,6 +26,7 @@
         <e p="Event.cs" t="Include" />
         <e p="Sound.cs" t="Include" />
         <e p="Template.cs" t="Include" />
+        <e p="Time.cs" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive">
