@@ -16,12 +16,12 @@ namespace AudioScheduler.Model
 
         private int Int => int.Parse(_value.Remove(2, 1));
 
-        private bool NextDay
+        public bool NextDay
         {
             get
             {
                 if (_value == null) return true;
-                return Int < App.NextDayTimeInt;
+                return Int < App.NextDayStart.Int;
             }
         }
 
@@ -53,6 +53,11 @@ namespace AudioScheduler.Model
             return first.CompareTo(second);
         }
 
+        public override string ToString()
+        {
+            return _value;
+        }
+
         public static implicit operator string(Time time)
         {
             return time._value;
@@ -61,6 +66,16 @@ namespace AudioScheduler.Model
         public static implicit operator Time(string value)
         {
             return value == null ? null : new Time(value);
+        }
+
+        public static bool operator ==(Time x, Time y)
+        {
+            return x?._value == y?._value;
+        }
+
+        public static bool operator !=(Time x, Time y)
+        {
+            return x?._value != y?._value;
         }
 
         private static string Format(string input)

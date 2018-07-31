@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler.Model
 {
@@ -59,27 +61,28 @@ namespace AudioScheduler.Model
             }
         }
 
-        // Returns Sound Id of what to play for current minute
-        public static Sound CurrentSound(DateTime dateTime)
+        // Play Sound for current date and time
+        public static void PlayCurrent()
         {
-            // Declare the event
-            Event e;
+            // Get current date and time
+            var today = DateTime.Now.Date;
+            Time now = DateTime.Now.ToString("HH:mm");
+            if (now.NextDay) today = today.AddDays(-1);
+            Debug.WriteLine("CHECKING TIME: " + now);
+
+            // Declare the Sound
+            Sound sound;
 
             // Get the sound
             using (var db = new Context())
             {
-                // Get the Day
-                var day = db.Days.FirstOrDefault(o => o.Date.Equals(dateTime.Date));
-
-                // Return null if no Day found
-                if (day?.Events == null) return null;
-
-                // Get the Event
-                e = day.Events.FirstOrDefault(o => o.Time == dateTime.ToString("HH:mm"));
+                sound = db.Days.Include("Events.Sound")
+                    .FirstOrDefault(o => o.Date.Equals(today))?.Events
+                    .FirstOrDefault(o => o.Time == now)?.Sound;
             }
 
-            // Return null if Sound not found
-            return e?.Sound;
+            // Play Sound if not null
+            if (sound != null) AudioController.PlaySound(sound);
         }
     }
 }

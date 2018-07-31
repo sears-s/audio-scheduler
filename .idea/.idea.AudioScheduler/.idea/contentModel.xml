@@ -41,6 +41,7 @@
         <e p="Resources.Designer.cs" t="Include" />
         <e p="Resources.resx" t="Include" />
       </e>
+      <e p="Scheduler.cs" t="Include" />
       <e p="Settings.xaml" t="Include" />
       <e p="Settings.xaml.cs" t="Include" />
       <e p="Sounds" t="Include">

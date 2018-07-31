@@ -185,6 +185,7 @@
     <Compile Include="PlayTts.xaml.cs">
       <DependentUpon>PlayTts.xaml</DependentUpon>
     </Compile>
+      <Compile Include="Scheduler.cs"/>
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>

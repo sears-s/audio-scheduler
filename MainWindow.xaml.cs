@@ -26,7 +26,7 @@ namespace AudioScheduler
             eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
-        public void UpdateEvents()
+        private void UpdateEvents()
         {
             // Clear the Event list
             foreach (var x in _db.Events.Local.ToList())
@@ -54,7 +54,7 @@ namespace AudioScheduler
             _db.Entry(day).Collection(o => o.Events).Load();
         }
 
-        public void UpdateSounds()
+        private void UpdateSounds()
         {
             // Populate the drop down for playing Sounds
             SoundCb.ItemsSource = Sound.Fetch();

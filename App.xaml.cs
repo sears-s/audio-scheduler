@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using AudioScheduler.Model;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +10,7 @@ namespace AudioScheduler
     {
         public const string DatabaseFile = "data.db";
         public const string SoundDirectory = @".\sounds\";
-        public const string NextDayTime = "02:00";
-        public static readonly int NextDayTimeInt = int.Parse(NextDayTime.Remove(2, 1));
+        public static readonly Time NextDayStart = "02:00";
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -55,8 +52,8 @@ namespace AudioScheduler
 //                }
 //            }
 
-            // Start the Scheduler as a Task
-            Task.Factory.StartNew(Scheduler);
+            // Start the Scheduler
+            Scheduler.Start();
 
             // Open main window
             var mainWindow = new MainWindow();
@@ -79,29 +76,6 @@ namespace AudioScheduler
         public static void InfoMessage(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        // Runs once a minute and checks if a Sound should play
-        private static void Scheduler()
-        {
-            while (true)
-            {
-                // Calculate ms until next minute
-                var now = DateTime.Now.TimeOfDay;
-                var nextMin = TimeSpan.FromMinutes(Math.Ceiling(now.TotalMinutes));
-                var wait = (nextMin - now).TotalMilliseconds;
-
-                // Wait
-                Thread.Sleep((int) wait);
-
-                // Get the Sound
-                var sound = Day.CurrentSound(DateTime.Now);
-
-                // Play Sound if one is found
-                if (sound != null) AudioController.PlaySound(sound);
-            }
-
-            // ReSharper disable once FunctionNeverReturns
         }
 
         #endregion
