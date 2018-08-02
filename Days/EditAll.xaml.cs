@@ -7,41 +7,33 @@ using System.Windows.Data;
 using System.Windows.Media;
 using AudioScheduler.Model;
 using AudioScheduler.Templates;
-using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler.Days
 {
     public partial class EditAll
     {
-        private readonly Context _db = new Context();
+        private Context _db;
+        private readonly CollectionViewSource _eventViewSource;
         private Day _day;
 
         public EditAll()
         {
             InitializeComponent();
 
-            // Select today
-            Calendar.SelectedDate = DateTime.Today;
-
-            // Load Sounds
-            Sound.ItemsSource = Model.Sound.Fetch(_db);
-
             // Load Events
-            var eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
-            eventViewSource.Source = _db.Events.Local.ToObservableCollection();
-            UpdateEvents();
+            _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
+            Calendar.SelectedDate = DateTime.Today;
             UpdateHighlightedDates();
         }
 
         private void UpdateEvents()
         {
-            // Clear the Event list
-            foreach (var x in _db.Events.Local.ToList())
-            {
-                _db.Entry(x).State = EntityState.Detached;
-                _db.Events.Local.Remove(x);
-            }
-
+            // Set Context
+            _db = new Context();
+            
+            // Load Sounds
+            Sound.ItemsSource = Model.Sound.Fetch(_db);
+            
             // Return if no date selected
             if (Calendar.SelectedDate == null) return;
 
@@ -62,6 +54,7 @@ namespace AudioScheduler.Days
 
             // Load Day Events from database
             _db.Entry(_day).Collection(o => o.Events).Load();
+            _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
         private void UpdateHighlightedDates()

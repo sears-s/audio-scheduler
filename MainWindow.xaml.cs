@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -11,30 +12,27 @@ namespace AudioScheduler
 {
     public partial class MainWindow
     {
-        private readonly Context _db = new Context();
+        private Context _db;
+        private readonly CollectionViewSource _eventViewSource;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            // Load Sounds
-            UpdateSounds();
-
             // Load Events
-            var eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
+            _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
             UpdateEvents();
-            eventViewSource.Source = _db.Events.Local.ToObservableCollection();
+            _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
         private void UpdateEvents()
         {
-            // Clear the Event list
-            foreach (var x in _db.Events.Local.ToList())
-            {
-                _db.Entry(x).State = EntityState.Detached;
-                _db.Events.Local.Remove(x);
-            }
-
+            // Set Context
+            _db = new Context();
+            
+            // Load Sounds
+            UpdateSounds();
+            
             // Get today's date
             var today = DateTime.Today;
 
@@ -45,13 +43,13 @@ namespace AudioScheduler
             var day = _db.Days.FirstOrDefault(o => o.Date.Equals(today));
             if (day == null)
             {
-                App.ErrorMessage(
-                    $"Could not find day with date {today.ToString(CultureInfo.InvariantCulture)} in database.");
+                App.ErrorMessage($"Could not find day with date {today.ToShortDateString()} in database.");
                 return;
             }
 
             // Load Events
             _db.Entry(day).Collection(o => o.Events).Load();
+            _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
         private void UpdateSounds()
