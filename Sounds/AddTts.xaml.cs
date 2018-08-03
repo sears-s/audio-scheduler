@@ -10,7 +10,7 @@ namespace AudioScheduler.Sounds
             InitializeComponent();
 
             // Populate voices drop down
-            foreach (var v in AudioController.GetVoices()) Voices.Items.Add(v);
+            foreach (var v in App.AudioController.GetVoices()) Voices.Items.Add(v);
 
             // Select first item
             Voices.SelectedIndex = 0;
@@ -24,7 +24,7 @@ namespace AudioScheduler.Sounds
         private void Test(object sender, RoutedEventArgs e)
         {
             // Play the test TTS
-            AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
+            App.AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
         }
 
         private void Add(object sender, RoutedEventArgs e)

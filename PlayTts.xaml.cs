@@ -9,7 +9,7 @@ namespace AudioScheduler
             InitializeComponent();
 
             // Populate voices drop down
-            foreach (var v in AudioController.GetVoices()) Voices.Items.Add(v);
+            foreach (var v in App.AudioController.GetVoices()) Voices.Items.Add(v);
 
             // Select first item
             Voices.SelectedIndex = 0;
@@ -22,7 +22,7 @@ namespace AudioScheduler
 
         private void Play(object sender, RoutedEventArgs e)
         {
-            AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
+            App.AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
             Close();
         }
     }

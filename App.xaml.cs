@@ -11,6 +11,7 @@ namespace AudioScheduler
         public const string DatabaseFile = "data.db";
         public const string SoundDirectory = @".\sounds\";
         public static readonly Time NextDayStart = "02:00";
+        public static readonly AudioController AudioController = new AudioController();
 
         protected override void OnStartup(StartupEventArgs e)
         {

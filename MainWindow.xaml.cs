@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using AudioScheduler.Days;
 using AudioScheduler.Model;
-using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler
 {
     public partial class MainWindow
     {
-        private Context _db;
         private readonly CollectionViewSource _eventViewSource;
+        private Context _db;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            // Set playing DataContext
+            TextBlock.DataContext = App.AudioController;
 
             // Load Events
             _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
@@ -29,10 +29,10 @@ namespace AudioScheduler
         {
             // Set Context
             _db = new Context();
-            
+
             // Load Sounds
             UpdateSounds();
-            
+
             // Get today's date
             var today = DateTime.Today;
 
@@ -114,7 +114,7 @@ namespace AudioScheduler
 
         private void PlaySound(object sender, RoutedEventArgs e)
         {
-            AudioController.PlaySound((Sound) SoundCb.SelectedItem);
+            App.AudioController.PlaySound((Sound) SoundCb.SelectedItem);
         }
 
         private void PlayTts(object sender, RoutedEventArgs e)
@@ -128,7 +128,7 @@ namespace AudioScheduler
 
         private void StopSound(object sender, RoutedEventArgs e)
         {
-            AudioController.Stop();
+            App.AudioController.Stop();
         }
     }
 }

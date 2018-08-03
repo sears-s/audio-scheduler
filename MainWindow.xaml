@@ -64,9 +64,10 @@
             <TextBlock TextAlignment="Center"
                        Text="Currently Playing:"
                        Margin="10 10 10 0" />
-            <TextBlock Name="PlayingTb"
+            <TextBlock Name="TextBlock"
+                       Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Playing}"
+                       d:DataContext="{d:DesignInstance }"
                        TextAlignment="Center"
-                       Text="{Binding Source={x:Static local:AudioController.Playing}}"
                        Margin="10 0 10 10" />
             <TextBlock Text="Select a sound:"
                        TextAlignment="Center"

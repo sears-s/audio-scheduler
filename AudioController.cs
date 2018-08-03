@@ -1,41 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Speech.Synthesis;
 using AudioScheduler.Model;
 using NAudio.Wave;
 
 namespace AudioScheduler
 {
-    public static class AudioController
+    public sealed class AudioController : INotifyPropertyChanged
     {
-        // Properties
-        private static readonly WaveOutEvent WaveOut = new WaveOutEvent();
-        private static readonly SpeechSynthesizer Synthesizer = new SpeechSynthesizer();
+        private readonly SpeechSynthesizer _synthesizer = new SpeechSynthesizer();
+        private readonly WaveOutEvent _waveOut = new WaveOutEvent();
+
+        private string _playing = "None";
 
         // Initialization of static class
-        static AudioController()
+        public AudioController()
         {
             // Go to event when MediaPlayer and Synthesizer end
-            WaveOut.PlaybackStopped += EndSound;
-            Synthesizer.SpeakCompleted += EndSound;
+            _waveOut.PlaybackStopped += EndSound;
+            _synthesizer.SpeakCompleted += EndSound;
         }
 
-        public static string Playing { get; private set; } = "None";
+        public string Playing
+        {
+            get => _playing;
+            private set
+            {
+                _playing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         // Stop what is playing
-        public static void Stop()
+        public void Stop()
         {
             // Stop file and TTS audio
-            WaveOut.Stop();
-            Synthesizer.SpeakAsyncCancelAll();
+            _waveOut.Stop();
+            _synthesizer.SpeakAsyncCancelAll();
 
             // Change what is playing
             Playing = "None";
         }
 
         // Play a specified sound
-        public static void PlaySound(Sound sound)
+        public void PlaySound(Sound sound)
         {
             // Stop playing audio
             Stop();
@@ -46,8 +59,8 @@ namespace AudioScheduler
                 using (var reader = new MediaFoundationReader(sound.FilePath))
                 {
                     Playing = "Loading";
-                    WaveOut.Init(reader);
-                    WaveOut.Play();
+                    _waveOut.Init(reader);
+                    _waveOut.Play();
                     Playing = sound.Name;
                 }
             }
@@ -59,30 +72,35 @@ namespace AudioScheduler
         }
 
         // Play a TTS
-        public static void PlayTts(string text, string voice)
+        public void PlayTts(string text, string voice)
         {
             // Stop playing audio
             Stop();
 
             // Change the voice
-            Synthesizer.SelectVoice(voice);
+            _synthesizer.SelectVoice(voice);
 
             // Speak the text
-            Synthesizer.SpeakAsync(text);
+            _synthesizer.SpeakAsync(text);
             Playing = "Custom TTS";
         }
 
         // Called when a sound or TTS finishes
-        private static void EndSound(object sender, EventArgs e)
+        private void EndSound(object sender, EventArgs e)
         {
             // Reset what is playing
             Playing = "None";
         }
 
         // Returns of a list of all the synthesizer voices names
-        public static List<string> GetVoices()
+        public IEnumerable<string> GetVoices()
         {
-            return Synthesizer.GetInstalledVoices().Select(v => v.VoiceInfo).Select(v => v.Name).ToList();
+            return _synthesizer.GetInstalledVoices().Select(v => v.VoiceInfo).Select(v => v.Name).ToList();
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

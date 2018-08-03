@@ -82,7 +82,7 @@ namespace AudioScheduler.Model
             }
 
             // Play Sound if not null
-            if (sound != null) AudioController.PlaySound(sound);
+            if (sound != null) App.AudioController.PlaySound(sound);
         }
     }
 }
