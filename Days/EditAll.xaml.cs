@@ -12,9 +12,9 @@ namespace AudioScheduler.Days
 {
     public partial class EditAll
     {
-        private Context _db;
         private readonly CollectionViewSource _eventViewSource;
         private Day _day;
+        private Context _db;
 
         public EditAll()
         {
@@ -30,10 +30,10 @@ namespace AudioScheduler.Days
         {
             // Set Context
             _db = new Context();
-            
+
             // Load Sounds
             Sound.ItemsSource = Model.Sound.Fetch(_db);
-            
+
             // Return if no date selected
             if (Calendar.SelectedDate == null) return;
 
@@ -83,10 +83,11 @@ namespace AudioScheduler.Days
 
         private void Save()
         {
+            // Return if no Day
             if (_day == null) return;
 
+            // Remove Events with no Sound or Time and add new ones
             foreach (var ev in _db.Events.Local.ToList())
-                // Remove Events with no Sound or Time and add new ones
                 if (ev.Sound == null || ev.Time == null)
                     _db.Events.Remove(ev);
                 else if (_day.Events.All(o => o.Id != ev.Id)) _day.Events.Add(ev);

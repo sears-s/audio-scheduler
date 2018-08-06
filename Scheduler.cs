@@ -8,6 +8,7 @@ namespace AudioScheduler
     {
         private static Timer _timer;
 
+        // Called to start the Scheduler
         public static void Start()
         {
             _timer = new Timer
@@ -18,12 +19,14 @@ namespace AudioScheduler
             Elapsed(null, null);
         }
 
+        // Get interval to next minute
         private static double GetInterval()
         {
             var now = DateTime.Now;
             return ((now.Second > 30 ? 120 : 60) - now.Second) * 1000 - now.Millisecond;
         }
 
+        // Called on each minute
         private static void Elapsed(object sender, ElapsedEventArgs e)
         {
             Day.PlayCurrent();

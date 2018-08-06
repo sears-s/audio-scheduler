@@ -22,6 +22,7 @@ namespace AudioScheduler
 
         private void Play(object sender, RoutedEventArgs e)
         {
+            // Play the TTS
             App.AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
             Close();
         }

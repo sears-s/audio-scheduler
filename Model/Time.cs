@@ -7,6 +7,7 @@ namespace AudioScheduler.Model
     {
         private readonly string _value;
 
+        // Format Time when created
         private Time(string value)
         {
             _value = Format(value);
@@ -14,8 +15,10 @@ namespace AudioScheduler.Model
                 App.InfoMessage("Time Format", "Incorrect time format. Should be HHMM, HMM, HH:MM, or H:MM.");
         }
 
+        // Parse Time as an integer
         private int Int => int.Parse(_value.Remove(2, 1));
 
+        // True if Time should be at next day
         public bool NextDay
         {
             get
@@ -25,31 +28,21 @@ namespace AudioScheduler.Model
             }
         }
 
-        public TimeSpan TimeSpan
-        {
-            get
-            {
-                if (_value == null) return new TimeSpan();
-
-                var split = _value.Split(':');
-                var hours = int.Parse(split[0]);
-                var minutes = int.Parse(split[1]);
-
-                return NextDay ? new TimeSpan(hours + 24, minutes, 0) : new TimeSpan(hours, minutes, 0);
-            }
-        }
-
+        // Sort Times correctly
         public int CompareTo(object obj)
         {
+            // Check if null
             var other = obj as Time;
             if (_value == null) return 1;
             if (other?._value == null) return -1;
 
+            // Add 24 hours if next day
             var first = Int;
             var second = other.Int;
             if (NextDay) first += 2400;
             if (other.NextDay) second += 2400;
 
+            // Compare as strings
             return first.CompareTo(second);
         }
 
@@ -78,6 +71,7 @@ namespace AudioScheduler.Model
             return x?._value != y?._value;
         }
 
+        // Format Time as HH:MM, returns null if bad time
         private static string Format(string input)
         {
             // Check if null string or too short

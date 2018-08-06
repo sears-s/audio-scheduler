@@ -6,6 +6,7 @@
         {
             InitializeComponent();
 
+            // Set help text
             TextBlock.Text =
                 $"The database file is located at {App.DatabaseFile}\n\n" +
                 $"Added sounds are copied and saved in {App.SoundDirectory}\n\n" +

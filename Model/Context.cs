@@ -8,9 +8,6 @@ namespace AudioScheduler.Model
         public Context()
         {
             if (File.Exists(App.DatabaseFile)) return;
-            App.InfoMessage("Startup Warning",
-                $"Database file could not be found. It will be created at {App.DatabaseFile}. " +
-                "The database file may have been deleted or misplaced or this is the first time using the program on this computer.");
             Database.EnsureCreated();
         }
 

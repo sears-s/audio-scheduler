@@ -56,8 +56,7 @@
                                             DisplayMemberPath="Name"
                                             Header="Sound"
                                             Width="0.6*" />
-                    <DataGridTextColumn x:Name="Time"
-                                        Binding="{Binding TimeString}"
+                    <DataGridTextColumn Binding="{Binding TimeString}"
                                         Header="Time"
                                         Width="0.4*" />
                 </DataGrid.Columns>

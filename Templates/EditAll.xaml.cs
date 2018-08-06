@@ -62,7 +62,7 @@ namespace AudioScheduler.Templates
             };
             inputWindow.ShowDialog();
 
-            // Exit if canceled
+            // Return if canceled
             if (inputWindow.Result == null) return;
 
             // Rename the Sound
@@ -96,7 +96,7 @@ namespace AudioScheduler.Templates
             };
             inputWindow.ShowDialog();
 
-            // Exit if canceled
+            // Return if canceled
             if (inputWindow.Result == null) return;
 
             // Add the Sound

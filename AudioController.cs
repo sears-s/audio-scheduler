@@ -13,17 +13,16 @@ namespace AudioScheduler
     {
         private readonly SpeechSynthesizer _synthesizer = new SpeechSynthesizer();
         private readonly WaveOutEvent _waveOut = new WaveOutEvent();
-
         private string _playing = "None";
 
-        // Initialization of static class
         public AudioController()
         {
-            // Go to event when MediaPlayer and Synthesizer end
+            // Set event MediaPlayer and Synthesizer end
             _waveOut.PlaybackStopped += EndSound;
             _synthesizer.SpeakCompleted += EndSound;
         }
 
+        // Implement INofityPropertChanged
         public string Playing
         {
             get => _playing;
@@ -47,13 +46,13 @@ namespace AudioScheduler
             Playing = "None";
         }
 
-        // Play a specified sound
+        // Play a specified Sound
         public void PlaySound(Sound sound)
         {
             // Stop playing audio
             Stop();
 
-            // Open and play the sound
+            // Open and play the Sound
             try
             {
                 using (var reader = new MediaFoundationReader(sound.FilePath))
@@ -85,7 +84,7 @@ namespace AudioScheduler
             Playing = "Custom TTS";
         }
 
-        // Called when a sound or TTS finishes
+        // Called when a Sound or TTS finishes
         private void EndSound(object sender, EventArgs e)
         {
             // Reset what is playing
@@ -98,6 +97,7 @@ namespace AudioScheduler
             return _synthesizer.GetInstalledVoices().Select(v => v.VoiceInfo).Select(v => v.Name).ToList();
         }
 
+        // Implement INofityPropertChanged
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -41,8 +41,8 @@ namespace AudioScheduler.Templates
 
         private void Save(object sender, RoutedEventArgs e)
         {
+            // Remove Events with no Sound or Time and add new ones
             foreach (var ev in _db.Events.Local.ToList())
-                // Remove Events with no Sound or Time and add new ones
                 if (ev.Sound == null || ev.Time == null)
                     _db.Events.Remove(ev);
                 else if (_template.Events.All(o => o.Id != ev.Id)) _template.Events.Add(ev);

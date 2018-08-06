@@ -24,7 +24,7 @@ namespace AudioScheduler.Sounds
             // Get the list
             var sounds = Sound.Fetch();
 
-            // Exit if fetch failed
+            // Return if fetch failed
             if (sounds == null) return;
 
             // Populate the list

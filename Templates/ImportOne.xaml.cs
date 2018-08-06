@@ -36,7 +36,7 @@ namespace AudioScheduler.Templates
 
         private void Import(object sender, RoutedEventArgs e)
         {
-            // Do nothing if nothing selected
+            // Return if nothing selected
             if (Templates.SelectedItem == null) return;
 
             // Set TemplateId

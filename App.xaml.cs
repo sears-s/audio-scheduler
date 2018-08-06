@@ -8,7 +8,9 @@ namespace AudioScheduler
 {
     public partial class App
     {
-        private static readonly string BaseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AudioScheduler\");
+        private static readonly string BaseDirectory =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AudioScheduler\");
+
         public static readonly string DatabaseFile = Path.Combine(BaseDirectory, "data.db");
         public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
         public static Time NextDayStart;
@@ -18,8 +20,18 @@ namespace AudioScheduler
         {
             base.OnStartup(e);
 
-            if (!Directory.Exists(BaseDirectory)) Directory.CreateDirectory(BaseDirectory);
-            
+            // Create BaseDirectory
+            if (!Directory.Exists(BaseDirectory))
+            {
+                InfoMessage("Startup Warning",
+                    $"Data folder not found. It will be created at {BaseDirectory}. " +
+                    "The data folder may have deleted or misplaced or this is the first time using the program on this computer.");
+                Directory.CreateDirectory(BaseDirectory);
+            }
+
+            // Create SoundDirectory
+            if (!Directory.Exists(SoundDirectory)) Directory.CreateDirectory(SoundDirectory);
+
             // Set default Settings
             var nextDayStartSetting = Setting.Get("NextDayStart");
             if (nextDayStartSetting == null)
@@ -27,7 +39,7 @@ namespace AudioScheduler
                 Setting.AddOrChange("NextDayStart", "02:00");
                 nextDayStartSetting = Setting.Get("NextDayStart");
             }
-            
+
             // Get Settings
             NextDayStart = nextDayStartSetting;
 
@@ -46,16 +58,6 @@ namespace AudioScheduler
                 Current.Shutdown();
             }
 
-
-            // Create Sounds directory if it doesn't exist
-            if (!Directory.Exists(SoundDirectory))
-            {
-                InfoMessage("Startup Warning",
-                    $"Sounds directory not found. It will be created at {SoundDirectory}. " +
-                    "The directory of sounds may have deleted or misplaced or this is the first time using the program on this computer.");
-                Directory.CreateDirectory(SoundDirectory);
-            }
-
             // Start the Scheduler
             Scheduler.Start();
 
@@ -69,11 +71,10 @@ namespace AudioScheduler
         {
             var show = message;
             if (e != null) show = $"{message}\n{e.Message}";
-
             MessageBox.Show(show, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        // Display a message
+        // Display an info message
         public static void InfoMessage(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);

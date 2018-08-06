@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,43 +20,29 @@ namespace AudioScheduler.Model
             // Strip time
             date = date.Date;
 
-            try
+            using (var db = new Context())
             {
-                using (var db = new Context())
+                // Check if date is duplicate
+                if (db.Days.Any(o => o.Date.Equals(date))) return;
+
+                // Create day object
+                var newDay = new Day
                 {
-                    // Check if date is duplicate
-                    if (db.Days.Any(o => o.Date.Equals(date))) return;
+                    Date = date
+                };
 
-                    // Create day object
-                    var newDay = new Day
-                    {
-                        Date = date
-                    };
-
-                    // Add newDay to database
-                    db.Days.Add(newDay);
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
-                App.ErrorMessage($"Error adding date {date.ToShortDateString()} to database.", e);
+                // Add newDay to database
+                db.Days.Add(newDay);
+                db.SaveChanges();
             }
         }
 
+        // Returns list of Days with at least one Event
         public static IEnumerable<DateTime> AllWithEvent()
         {
-            try
+            using (var db = new Context())
             {
-                using (var db = new Context())
-                {
-                    return db.Days.Where(o => o.Events.Count > 0).Select(o => o.Date).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                App.ErrorMessage("Error getting dates from database.", e);
-                return null;
+                return db.Days.Where(o => o.Events.Count > 0).Select(o => o.Date).ToList();
             }
         }
 
@@ -68,7 +53,6 @@ namespace AudioScheduler.Model
             var today = DateTime.Now.Date;
             Time now = DateTime.Now.ToString("HH:mm");
             if (now.NextDay) today = today.AddDays(-1);
-            Debug.WriteLine("CHECKING TIME: " + now);
 
             // Declare the Sound
             Sound sound;

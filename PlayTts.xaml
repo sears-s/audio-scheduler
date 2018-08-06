@@ -11,7 +11,7 @@
         Height="250"
         Width="325">
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Enter the text you would like to convert to speech."
+        <TextBlock Text="Enter the text you would like to convert to speech:"
                    Margin="10" />
         <TextBox Name="TextBox"
                  TextWrapping="Wrap"
