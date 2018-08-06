@@ -24,6 +24,7 @@
         <e p="Context.cs" t="Include" />
         <e p="Day.cs" t="Include" />
         <e p="Event.cs" t="Include" />
+        <e p="Setting.cs" t="Include" />
         <e p="Sound.cs" t="Include" />
         <e p="Template.cs" t="Include" />
         <e p="Time.cs" t="Include" />

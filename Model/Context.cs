@@ -9,7 +9,8 @@ namespace AudioScheduler.Model
         {
             if (File.Exists(App.DatabaseFile)) return;
             App.InfoMessage("Startup Warning",
-                $"Database file ({App.DatabaseFile}) could not be found. It will be created in the same directory as this executable. The database file may have been deleted or misplaced.");
+                $"Database file could not be found. It will be created at {App.DatabaseFile}. " +
+                "The database file may have been deleted or misplaced or this is the first time using the program on this computer.");
             Database.EnsureCreated();
         }
 
@@ -17,6 +18,7 @@ namespace AudioScheduler.Model
         public DbSet<Event> Events { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Day> Days { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {

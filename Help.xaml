@@ -10,5 +10,10 @@
         Title="Help"
         Height="300"
         Width="300">
-    <Grid />
+    <Grid VerticalAlignment="Stretch"
+          HorizontalAlignment="Center">
+        <TextBlock Name="TextBlock"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+    </Grid>
 </Window>

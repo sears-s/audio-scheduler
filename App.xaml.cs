@@ -8,14 +8,28 @@ namespace AudioScheduler
 {
     public partial class App
     {
-        public const string DatabaseFile = "data.db";
-        public const string SoundDirectory = @".\sounds\";
-        public static readonly Time NextDayStart = "02:00";
+        private static readonly string BaseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AudioScheduler\");
+        public static readonly string DatabaseFile = Path.Combine(BaseDirectory, "data.db");
+        public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
+        public static Time NextDayStart;
         public static readonly AudioController AudioController = new AudioController();
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            if (!Directory.Exists(BaseDirectory)) Directory.CreateDirectory(BaseDirectory);
+            
+            // Set default Settings
+            var nextDayStartSetting = Setting.Get("NextDayStart");
+            if (nextDayStartSetting == null)
+            {
+                Setting.AddOrChange("NextDayStart", "02:00");
+                nextDayStartSetting = Setting.Get("NextDayStart");
+            }
+            
+            // Get Settings
+            NextDayStart = nextDayStartSetting;
 
             // Test database connection
             try
@@ -37,21 +51,10 @@ namespace AudioScheduler
             if (!Directory.Exists(SoundDirectory))
             {
                 InfoMessage("Startup Warning",
-                    "Sounds directory not found. It will be created in the same directory as this executable. The directory of sounds may have deleted or misplaced.");
+                    $"Sounds directory not found. It will be created at {SoundDirectory}. " +
+                    "The directory of sounds may have deleted or misplaced or this is the first time using the program on this computer.");
                 Directory.CreateDirectory(SoundDirectory);
             }
-
-            // Delete Sounds with missing files
-//            else
-//            {
-//                foreach (var sound in Sound.Fetch())
-//                {
-//                    if (File.Exists(sound.FilePath)) continue;
-//                    InfoMessage("Startup Warning",
-//                        $"Audio file for sound {sound.Name} ({sound.FilePath}) could not be found. This sound will be deleted from the database");
-//                    Sound.Remove(sound.Id);
-//                }
-//            }
 
             // Start the Scheduler
             Scheduler.Start();
@@ -60,9 +63,6 @@ namespace AudioScheduler
             var mainWindow = new MainWindow();
             mainWindow.Show();
         }
-
-
-        #region Static Helpers
 
         // Display an error message
         public static void ErrorMessage(string message, Exception e = null)
@@ -78,7 +78,5 @@ namespace AudioScheduler
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-        #endregion
     }
 }
