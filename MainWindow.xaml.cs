@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Forms;
 using AudioScheduler.Days;
 using AudioScheduler.Model;
+using Application = System.Windows.Forms.Application;
+using Day = AudioScheduler.Model.Day;
 
 namespace AudioScheduler
 {
@@ -16,6 +20,21 @@ namespace AudioScheduler
         {
             InitializeComponent();
 
+            // Setup minimize to tray functionality
+            var contextMenu = new ContextMenu();
+            contextMenu.MenuItems.Add("Quit", (sender, args) => System.Windows.Application.Current.Shutdown());
+            var notifyIcon = new NotifyIcon
+            {
+                Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath),
+                Visible = true,
+                ContextMenu = contextMenu
+            };
+            notifyIcon.DoubleClick += delegate
+            {
+                Show();
+                WindowState = WindowState.Normal;
+            };
+
             // Set playing DataContext
             TextBlock.DataContext = App.AudioController;
 
@@ -23,6 +42,14 @@ namespace AudioScheduler
             _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
             UpdateEvents();
             _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
+        }
+
+        // Minimize to tray when closed
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+            OnClosed(e);
         }
 
         private void UpdateEvents()

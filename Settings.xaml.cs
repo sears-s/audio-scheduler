@@ -23,7 +23,7 @@ namespace AudioScheduler
             // Make Time
             Time time = TextBox.Text;
             
-            // Cancel if bad format
+            // Return if bad format
             if (time == null) return;
             
             // Change the Setting
