@@ -114,11 +114,15 @@ namespace AudioScheduler.Days
             // Return if no Template selected
             if (importOneWindow.TemplateId == -1) return;
 
-            // Add the Events
-            foreach (var ev in Model.Template.FetchEvents(importOneWindow.TemplateId, _db))
+            // Add the Events            
+            foreach (var ev in Model.Template.FetchEvents(importOneWindow.TemplateId))
             {
-                _db.Events.Local.Add(ev);
-                _db.Events.Add(ev);
+                var newEvent = new Event()
+                {
+                    Sound = ev.Sound,
+                    Time = ev.Time
+                };
+                _db.Events.Local.Add(newEvent);
             }
         }
 

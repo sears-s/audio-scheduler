@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler.Model
 {
@@ -101,7 +102,7 @@ namespace AudioScheduler.Model
                 using (db = new Context())
                 {
                     // Find Template with id
-                    template = db.Templates.Find(id);
+                    template = db.Templates.Include("Events.Sound").FirstOrDefault(o => o.Id == id);
 
                     // Return Events
                     if (template != null) return template.Events.ToList();
@@ -112,7 +113,7 @@ namespace AudioScheduler.Model
                 }
 
             // Find Template with id
-            template = db.Templates.Find(id);
+            template = db.Templates.Include("Events.Sound").FirstOrDefault(o => o.Id == id);
 
             // Return Events
             if (template != null) return template.Events.ToList();

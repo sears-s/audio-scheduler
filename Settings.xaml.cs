@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using AudioScheduler.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler
 {
@@ -30,6 +33,26 @@ namespace AudioScheduler
             Setting.AddOrChange("NextDayStart", time);
             App.NextDayStart = time;
             Close();
+        }
+
+        private void ClearDays(object sender, RoutedEventArgs e)
+        {
+            var yesterday = DateTime.Today.AddDays(-1);
+            using (var db = new Context())
+            {
+                var oldDays = db.Days.Where(o => o.Date < yesterday).Include("Events");
+                foreach (var day in oldDays)
+                {
+                    foreach (var dayEvent in day.Events)
+                    {
+                        db.Events.Remove(dayEvent);
+                    }
+
+                    db.Days.Remove(day);
+                }
+            }
+            
+            App.InfoMessage("Success", "Old days cleared.");
         }
     }
 }

@@ -8,12 +8,13 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         Title="Settings"
-        Height="150"
+        Height="170"
         Width="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
@@ -22,7 +23,11 @@
         <TextBox Grid.Row="1"
                  Name="TextBox"
                  Margin="10" />
-        <UniformGrid Grid.Row="2"
+        <Button Grid.Row="2"
+                Content="Delete Old Days"
+                Click="ClearDays"
+                Margin="5" />
+        <UniformGrid Grid.Row="3"
                      Columns="2">
             <Button Content="Cancel"
                     Click="Cancel"
