@@ -16,18 +16,16 @@ namespace AudioScheduler
         public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
         public static Time NextDayStart;
         public static readonly AudioController AudioController = new AudioController();
+        private static readonly Mutex Mutex = new Mutex(false, "Global\\83a4c0e1-eb14-483f-8612-a41ef86048ae");
 
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
             // Check if duplicate instance
-            using (var mutex = new Mutex(false, "Global\\83a4c0e1-eb14-483f-8612-a41ef86048ae"))
+            if (!Mutex.WaitOne(0, false))
             {
-                if (!mutex.WaitOne(0, false))
-                {
-                    ErrorMessage("Audio Scheduler already running. Exiting this duplicate instance.");
-                    Current.Shutdown();
-                }
+                ErrorMessage("Audio Scheduler already running. Exiting this duplicate instance.");
+                Current.Shutdown();
             }
             
             base.OnStartup(e);
