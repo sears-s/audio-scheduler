@@ -8,8 +8,8 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         Title="Help"
-        Height="300"
-        Width="300">
+        Width="300"
+        SizeToContent="Height">
     <Grid VerticalAlignment="Stretch"
           HorizontalAlignment="Center">
         <TextBlock Name="TextBlock"

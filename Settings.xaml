@@ -8,8 +8,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         Title="Settings"
-        Height="170"
-        Width="300">
+        SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
