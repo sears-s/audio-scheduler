@@ -25,10 +25,10 @@ namespace AudioScheduler
         {
             // Make Time
             Time time = TextBox.Text;
-            
+
             // Return if bad format
             if (time == null) return;
-            
+
             // Change the Setting
             Setting.AddOrChange("NextDayStart", time);
             App.NextDayStart = time;
@@ -39,7 +39,7 @@ namespace AudioScheduler
         {
             // Get date for two days ago
             var yesterday = DateTime.Today.AddDays(-2);
-            
+
             using (var db = new Context())
             {
                 // Get the old Days
@@ -51,15 +51,15 @@ namespace AudioScheduler
                     {
                         db.Events.Remove(dayEvent);
                     }
-                    
+
                     // Delete the Day
                     db.Days.Remove(day);
                 }
-                
+
                 // Save the changes
                 db.SaveChanges();
             }
-            
+
             App.InfoMessage("Success", "Old days cleared.");
         }
     }
