@@ -37,19 +37,27 @@ namespace AudioScheduler
 
         private void ClearDays(object sender, RoutedEventArgs e)
         {
-            var yesterday = DateTime.Today.AddDays(-1);
+            // Get date for two days ago
+            var yesterday = DateTime.Today.AddDays(-2);
+            
             using (var db = new Context())
             {
+                // Get the old Days
                 var oldDays = db.Days.Where(o => o.Date < yesterday).Include("Events");
                 foreach (var day in oldDays)
                 {
+                    // Delete the Events
                     foreach (var dayEvent in day.Events)
                     {
                         db.Events.Remove(dayEvent);
                     }
-
+                    
+                    // Delete the Day
                     db.Days.Remove(day);
                 }
+                
+                // Save the changes
+                db.SaveChanges();
             }
             
             App.InfoMessage("Success", "Old days cleared.");

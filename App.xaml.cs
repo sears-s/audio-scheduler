@@ -9,6 +9,7 @@ namespace AudioScheduler
 {
     public partial class App
     {
+        private static readonly Mutex Mutex = new Mutex(false, "Global\\83a4c0e1-eb14-483f-8612-a41ef86048ae");
         private static readonly string BaseDirectory =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"AudioScheduler\");
 
@@ -16,7 +17,6 @@ namespace AudioScheduler
         public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
         public static Time NextDayStart;
         public static readonly AudioController AudioController = new AudioController();
-        private static readonly Mutex Mutex = new Mutex(false, "Global\\83a4c0e1-eb14-483f-8612-a41ef86048ae");
 
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
