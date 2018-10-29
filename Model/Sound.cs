@@ -94,6 +94,9 @@ namespace AudioScheduler.Model
 
                     return;
                 }
+                
+                // Dispose the SpeechSynthesizer
+                synthesizer.Dispose();
 
                 // Create Sound
                 var newSound = new Sound
