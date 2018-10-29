@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using AudioScheduler.Days;
 using AudioScheduler.Model;
+using Microsoft.EntityFrameworkCore;
 using Application = System.Windows.Forms.Application;
 using Day = AudioScheduler.Model.Day;
 
@@ -41,7 +42,6 @@ namespace AudioScheduler
             // Load Events
             _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
             UpdateEvents();
-            _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
         // Minimize to tray when closed
@@ -75,7 +75,7 @@ namespace AudioScheduler
             }
 
             // Load Events
-            _db.Entry(day).Collection(o => o.Events).Load();
+            _db.Entry(day).Collection(o => o.Events).Query().OrderBy(o => o.Time).Load();
             _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
