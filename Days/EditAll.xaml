@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         Title="Edit Schedule"
-        Height="300"
+        Height="400"
         Width="600"
         Closing="WindowClosed">
     <Window.Resources>
@@ -38,10 +38,14 @@
         <Grid Grid.Column="1"
               DataContext="{DynamicResource EventViewSource}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0"
+            <TextBlock Grid.Row="0"
+                       Text="Press the Delete key to remove selected event"
+                       Margin="5" />
+            <DataGrid Grid.Row="1"
                       ItemsSource="{Binding}"
                       AutoGenerateColumns="False"
                       CanUserReorderColumns="False"
@@ -61,7 +65,7 @@
                                         Width="0.4*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <UniformGrid Grid.Row="1"
+            <UniformGrid Grid.Row="2"
                          Columns="2">
                 <Button Content="Clear"
                         Click="Clear"
