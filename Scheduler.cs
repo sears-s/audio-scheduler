@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Timers;
 using AudioScheduler.Model;
 
@@ -6,6 +7,14 @@ namespace AudioScheduler
 {
     public static class Scheduler
     {
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern uint SetThreadExecutionState(uint esFlags);
+
+        private const uint EsContinuous = 0x80000000;
+        private const uint EsSystemRequired = 0x00000001;
+        private const uint EsDisplayRequired = 0x00000002;
+        private const uint EsAwayModeRequired = 0x00000040;
+
         private static Timer _timer;
 
         // Called to start the Scheduler
@@ -29,7 +38,17 @@ namespace AudioScheduler
         // Called on each minute
         private static void Elapsed(object sender, ElapsedEventArgs e)
         {
+            // Play sound for current minute
             Day.PlayCurrent();
+            
+            // Reset compute idle timer
+            if (SetThreadExecutionState(EsContinuous | EsSystemRequired | EsDisplayRequired | EsAwayModeRequired) == 0)
+            {
+                // Try XP variant as well just to make sure 
+                SetThreadExecutionState(EsContinuous | EsSystemRequired | EsDisplayRequired);
+            }
+            
+            // Wait for next call
             _timer.Interval = GetInterval();
             _timer.Start();
         }
