@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using AudioScheduler.Days;
 using AudioScheduler.Model;
 using Microsoft.EntityFrameworkCore;
-using Application = System.Windows.Forms.Application;
+using Application = System.Windows.Application;
 using Day = AudioScheduler.Model.Day;
 
 namespace AudioScheduler
@@ -23,10 +23,10 @@ namespace AudioScheduler
 
             // Setup minimize to tray functionality
             var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add("Quit", (sender, args) => System.Windows.Application.Current.Shutdown());
+            contextMenu.MenuItems.Add("Quit", (sender, args) => Application.Current.Shutdown());
             var notifyIcon = new NotifyIcon
             {
-                Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath),
+                Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath),
                 Visible = true,
                 ContextMenu = contextMenu
             };
@@ -162,22 +162,22 @@ namespace AudioScheduler
         {
             App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "Reveille"));
         }
-        
+
         private void ToTheColors(object sender, RoutedEventArgs e)
         {
             App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "To the Colors"));
         }
-        
+
         private void Retreat(object sender, RoutedEventArgs e)
         {
             App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "Retreat"));
         }
-        
+
         private void NationalAnthem(object sender, RoutedEventArgs e)
         {
             App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "National Anthem"));
         }
-        
+
         private void Taps(object sender, RoutedEventArgs e)
         {
             App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "TAPS"));

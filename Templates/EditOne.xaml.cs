@@ -67,7 +67,7 @@ namespace AudioScheduler.Templates
             // Add the Events
             foreach (var ev in Model.Template.FetchEvents(importOneWindow.TemplateId))
             {
-                var newEvent = new Event()
+                var newEvent = new Event
                 {
                     Sound = ev.Sound,
                     Time = ev.Time

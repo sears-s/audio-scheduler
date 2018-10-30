@@ -47,10 +47,7 @@ namespace AudioScheduler
                 foreach (var day in oldDays)
                 {
                     // Delete the Events
-                    foreach (var dayEvent in day.Events)
-                    {
-                        db.Events.Remove(dayEvent);
-                    }
+                    foreach (var dayEvent in day.Events) db.Events.Remove(dayEvent);
 
                     // Delete the Day
                     db.Days.Remove(day);

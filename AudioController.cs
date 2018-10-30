@@ -65,7 +65,7 @@ namespace AudioScheduler
             }
             catch (Exception e)
             {
-                App.ErrorMessage($"Error playing sound.", e);
+                App.ErrorMessage("Error playing sound.", e);
                 Playing = "None";
             }
         }
