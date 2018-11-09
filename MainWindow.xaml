@@ -26,7 +26,6 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0"
               DataContext="{DynamicResource EventViewSource}">
@@ -87,25 +86,6 @@
                     Margin="60 10 60 10" />
         </UniformGrid>
         <UniformGrid Grid.Column="2"
-                     Columns="1"
-                     Rows="5">
-            <Button Content="Reveille"
-                    Click="Reveille"
-                    Margin="20" />
-            <Button Content="To the Colors"
-                    Click="ToTheColors"
-                    Margin="20" />
-            <Button Content="Retreat"
-                    Click="Retreat"
-                    Margin="20" />
-            <Button Content="National Anthem"
-                    Click="NationalAnthem"
-                    Margin="20" />
-            <Button Content="TAPS"
-                    Click="Taps"
-                    Margin="20" />
-        </UniformGrid>
-        <UniformGrid Grid.Column="3"
                      Columns="1"
                      Rows="5">
             <Button Content="Edit Schedule"

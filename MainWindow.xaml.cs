@@ -165,30 +165,5 @@ namespace AudioScheduler
             App.AudioController.Stop();
             App.Log("Stop playing button pressed on main window");
         }
-
-        private void Reveille(object sender, RoutedEventArgs e)
-        {
-            App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "Reveille"));
-        }
-
-        private void ToTheColors(object sender, RoutedEventArgs e)
-        {
-            App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "To the Colors"));
-        }
-
-        private void Retreat(object sender, RoutedEventArgs e)
-        {
-            App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "Retreat"));
-        }
-
-        private void NationalAnthem(object sender, RoutedEventArgs e)
-        {
-            App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "National Anthem"));
-        }
-
-        private void Taps(object sender, RoutedEventArgs e)
-        {
-            App.AudioController.PlaySound(_db.Sounds.FirstOrDefault(o => o.Name == "TAPS"));
-        }
     }
 }
