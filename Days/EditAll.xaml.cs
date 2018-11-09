@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using AudioScheduler.Model;
 using AudioScheduler.Templates;
+using Microsoft.EntityFrameworkCore;
 
 namespace AudioScheduler.Days
 {
@@ -53,7 +54,7 @@ namespace AudioScheduler.Days
             Title = $"Edit Schedule {_day.Date.ToShortDateString()}";
 
             // Load Day Events from database
-            _db.Entry(_day).Collection(o => o.Events).Load();
+            _db.Entry(_day).Collection(o => o.Events).Query().OrderBy(o => o.Time).Load();
             _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
         }
 
