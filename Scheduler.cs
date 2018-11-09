@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Timers;
+using System.Windows;
+using System.Windows.Threading;
 using AudioScheduler.Model;
 
 namespace AudioScheduler
@@ -40,6 +42,12 @@ namespace AudioScheduler
         {
             // Play sound for current minute
             Day.PlayCurrent();
+
+            // Update MainWindow events (mostly needed when day changes)
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                (Application.Current.MainWindow as MainWindow)?.UpdateEvents();
+            });
 
             // Reset compute idle timer
             if (SetThreadExecutionState(EsContinuous | EsSystemRequired | EsDisplayRequired | EsAwayModeRequired) == 0)

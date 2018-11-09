@@ -52,7 +52,7 @@ namespace AudioScheduler
             OnClosed(e);
         }
 
-        private void UpdateEvents()
+        public void UpdateEvents()
         {
             // Set Context
             _db = new Context();
