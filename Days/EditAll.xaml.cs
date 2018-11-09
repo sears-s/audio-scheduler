@@ -89,8 +89,16 @@ namespace AudioScheduler.Days
             // Remove Events with no Sound or Time and add new ones
             foreach (var ev in _db.Events.Local.ToList())
                 if (ev.Sound == null || ev.Time == null)
+                {
                     _db.Events.Remove(ev);
-                else if (_day.Events.All(o => o.Id != ev.Id)) _day.Events.Add(ev);
+                    App.Log($"Event removed from schedule with date '{_day.Date.ToShortDateString()}'");
+                }
+                else if (_day.Events.All(o => o.Id != ev.Id))
+                {
+                    _day.Events.Add(ev);
+                    App.Log(
+                        $"Event added to schedule with date '{_day.Date.ToShortDateString()}' and sound '{ev.Sound.Name}' and time '{ev.TimeString}'");
+                }
 
             // Save changes
             _db.SaveChanges();
@@ -100,6 +108,7 @@ namespace AudioScheduler.Days
         private void Clear(object sender, RoutedEventArgs e)
         {
             _db.Events.Local.Clear();
+            App.Log($"Clear button pressed for schedule with date '{_day.Date.ToShortDateString()}'");
         }
 
         private void Import(object sender, RoutedEventArgs e)
@@ -114,7 +123,8 @@ namespace AudioScheduler.Days
             // Return if no Template selected
             if (importOneWindow.TemplateId == -1) return;
 
-            // Add the Events            
+            // Add the Events
+            var templateName = _db.Templates.Find(importOneWindow.TemplateId).Name;
             foreach (var ev in Model.Template.FetchEvents(importOneWindow.TemplateId))
             {
                 var newEvent = new Event
@@ -124,6 +134,9 @@ namespace AudioScheduler.Days
                 };
                 _db.Events.Local.Add(newEvent);
             }
+
+            App.Log(
+                $"Template imported to schedule with date '{_day.Date.ToShortDateString()}' and template name '{templateName}'");
         }
 
         private void DateChanged(object sender, SelectionChangedEventArgs e)

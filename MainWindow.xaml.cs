@@ -23,7 +23,11 @@ namespace AudioScheduler
 
             // Setup minimize to tray functionality
             var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add("Quit", (sender, args) => Application.Current.Shutdown());
+            contextMenu.MenuItems.Add("Quit", (sender, args) =>
+            {
+                App.Log("Application quit from tray");
+                Application.Current.Shutdown();
+            });
             var notifyIcon = new NotifyIcon
             {
                 Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath),
@@ -34,6 +38,7 @@ namespace AudioScheduler
             {
                 Show();
                 WindowState = WindowState.Normal;
+                App.Log("Main window restored from tray");
             };
 
             // Set playing DataContext
@@ -50,6 +55,7 @@ namespace AudioScheduler
             e.Cancel = true;
             Hide();
             OnClosed(e);
+            App.Log("Main window hidden to tray");
         }
 
         public void UpdateEvents()
@@ -142,6 +148,7 @@ namespace AudioScheduler
         private void PlaySound(object sender, RoutedEventArgs e)
         {
             App.AudioController.PlaySound((Sound) SoundCb.SelectedItem);
+            App.Log($"Sound played from main window with name '{((Sound) SoundCb.SelectedItem).Name}'");
         }
 
         private void PlayTts(object sender, RoutedEventArgs e)
@@ -156,6 +163,7 @@ namespace AudioScheduler
         private void StopSound(object sender, RoutedEventArgs e)
         {
             App.AudioController.Stop();
+            App.Log("Stop playing button pressed on main window");
         }
 
         private void Reveille(object sender, RoutedEventArgs e)

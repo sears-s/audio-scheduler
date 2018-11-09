@@ -23,6 +23,7 @@ namespace AudioScheduler
         }
 
         // Implement INofityPropertChanged
+        // ReSharper disable once MemberCanBePrivate.Global
         public string Playing
         {
             get => _playing;

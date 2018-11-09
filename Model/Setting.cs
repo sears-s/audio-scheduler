@@ -36,6 +36,8 @@ namespace AudioScheduler.Model
                     var setting = db.Settings.FirstOrDefault(o => o.Name == name);
                     if (setting != null)
                     {
+                        App.Log(
+                            $"Setting changed with name '{name}' and old value '{setting.Value}' and new value '{value}'");
                         setting.Value = value;
                     }
                     else

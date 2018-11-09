@@ -58,6 +58,7 @@ namespace AudioScheduler
             }
 
             App.InfoMessage("Success", "Old days cleared.");
+            App.Log("Old days cleared");
         }
     }
 }

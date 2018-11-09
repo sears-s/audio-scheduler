@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using AudioScheduler.Model;
 
 namespace AudioScheduler

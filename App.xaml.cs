@@ -16,16 +16,20 @@ namespace AudioScheduler
 
         public static readonly string DatabaseFile = Path.Combine(BaseDirectory, "data.db");
         public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
+        private static readonly string LogDirectory = Path.Combine(BaseDirectory, @"logs\");
         public static Time NextDayStart;
         public static readonly AudioController AudioController = new AudioController();
 
         [STAThread]
         protected override void OnStartup(StartupEventArgs e)
         {
+            Log("Application started");
+
             // Check if duplicate instance
             if (!Mutex.WaitOne(0, false))
             {
                 ErrorMessage("Audio Scheduler already running. Exiting this duplicate instance.");
+                Log("Attempt to open duplicate instance, exiting");
                 Current.Shutdown();
             }
 
@@ -39,6 +43,9 @@ namespace AudioScheduler
                     "The data folder may have deleted or misplaced or this is the first time using the program on this computer.");
                 Directory.CreateDirectory(BaseDirectory);
             }
+
+            // Create LogDirectory
+            if (!Directory.Exists(LogDirectory)) Directory.CreateDirectory(LogDirectory);
 
             // Create SoundDirectory
             if (!Directory.Exists(SoundDirectory)) Directory.CreateDirectory(SoundDirectory);
@@ -71,10 +78,12 @@ namespace AudioScheduler
 
             // Start the Scheduler
             Scheduler.Start();
+            Log("Scheduler started");
 
             // Open main window
             var mainWindow = new MainWindow();
             mainWindow.Show();
+            Log("Main window opened");
         }
 
         // Display an error message
@@ -83,12 +92,24 @@ namespace AudioScheduler
             var show = message;
             if (e != null) show = $"{message}\n{e.Message}";
             MessageBox.Show(show, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Log("Error: " + show.Replace("\n", " - "));
         }
 
         // Display an info message
         public static void InfoMessage(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        // Log to a file
+        public static void Log(string message)
+        {
+            if (!Directory.Exists(LogDirectory)) return;
+            var filename = DateTime.Today.ToString("yyyy-MM-dd") + ".txt";
+            using (var writer = File.AppendText(Path.Combine(LogDirectory, filename)))
+            {
+                writer.WriteLine($"{DateTime.Now.ToLongTimeString()} - {message}");
+            }
         }
     }
 }

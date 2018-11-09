@@ -24,6 +24,7 @@ namespace AudioScheduler
         {
             // Play the TTS
             App.AudioController.PlayTts(TextBox.Text, Voices.SelectedItem.ToString());
+            App.Log($"TTS played from main window with speech '{TextBox.Text}' and voice '{Voices.SelectedItem}'");
             Close();
         }
     }

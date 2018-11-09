@@ -56,6 +56,8 @@ namespace AudioScheduler.Model
                 db.Sounds.Add(newSound);
                 db.SaveChanges();
             }
+
+            App.Log($"Sound added with name '{name}' and path '{path}'");
         }
 
         // Add TTS Sound to database
@@ -109,11 +111,14 @@ namespace AudioScheduler.Model
                 db.Sounds.Add(newSound);
                 db.SaveChanges();
             }
+
+            App.Log($"Sound added named '{name}' from TTS speech '{speech}' with voice '{voice}'");
         }
 
         // Remove Sound given its id
         public static void Remove(int id)
         {
+            string name;
             using (var db = new Context())
             {
                 // Find Sound with id
@@ -125,6 +130,7 @@ namespace AudioScheduler.Model
                 }
 
                 // Delete Sound from database
+                name = sound.Name;
                 db.Sounds.Remove(sound);
                 db.SaveChanges();
 
@@ -138,11 +144,14 @@ namespace AudioScheduler.Model
                     App.ErrorMessage($"Error deleting file {Path.GetFullPath(sound.FilePath)}.", e);
                 }
             }
+
+            App.Log($"Sound removed with name '{name}'");
         }
 
         // Rename a Sound
         public static void Rename(int id, string name)
         {
+            string oldName;
             using (var db = new Context())
             {
                 // Check if name is duplicate
@@ -161,6 +170,7 @@ namespace AudioScheduler.Model
                 }
 
                 // Rename in database
+                oldName = sound.Name;
                 sound.Name = name;
                 var oldPath = sound.FilePath;
                 sound.FilePath = Path.Combine(App.SoundDirectory, name + ".mp3");
@@ -179,6 +189,8 @@ namespace AudioScheduler.Model
                         $"Error renaming {Path.GetFullPath(oldPath)} to {Path.GetFullPath(sound.FilePath)}.", e);
                 }
             }
+
+            App.Log($"Sound renamed with old name '{oldName}' and new name '{name}'");
         }
 
         // Returns all Sounds, sorted alphabetically

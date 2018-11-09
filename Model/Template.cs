@@ -35,11 +35,14 @@ namespace AudioScheduler.Model
                 db.Templates.Add(newTemplate);
                 db.SaveChanges();
             }
+
+            App.Log($"Template added with name '{name}'");
         }
 
         // Remove Template
         public static void Remove(int id)
         {
+            string name;
             using (var db = new Context())
             {
                 // Find Template with id
@@ -51,15 +54,19 @@ namespace AudioScheduler.Model
                 }
 
                 // Delete Template and its Events from database
+                name = template.Name;
                 db.Events.RemoveRange(template.Events);
                 db.Templates.Remove(template);
                 db.SaveChanges();
             }
+
+            App.Log($"Template removed with name '{name}'");
         }
 
         // Rename Template
         public static void Rename(int id, string name)
         {
+            string oldName;
             using (var db = new Context())
             {
                 // Check if name is duplicate
@@ -78,9 +85,12 @@ namespace AudioScheduler.Model
                 }
 
                 // Rename in database
+                oldName = template.Name;
                 template.Name = name;
                 db.SaveChanges();
             }
+
+            App.Log($"Template renamed with old name '{oldName}' and new name '{name}'");
         }
 
         // Returns all Templates, sorted alphabetically

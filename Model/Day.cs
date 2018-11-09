@@ -66,7 +66,9 @@ namespace AudioScheduler.Model
             }
 
             // Play Sound if not null
-            if (sound != null) App.AudioController.PlaySound(sound);
+            if (sound == null) return;
+            App.AudioController.PlaySound(sound);
+            App.Log($"Sound played from schedule with name '{sound.Name}'");
         }
     }
 }
