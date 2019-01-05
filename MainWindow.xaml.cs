@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
+using System.Windows.Media;
 using AudioScheduler.Days;
 using AudioScheduler.Model;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +84,49 @@ namespace AudioScheduler
             // Load Events
             _db.Entry(day).Collection(o => o.Events).Query().OrderBy(o => o.Time).Load();
             _eventViewSource.Source = _db.Events.Local.ToObservableCollection();
+
+            // Update status
+            if (StatusCheck())
+            {
+                StatusText.Text = "Schedule is Good";
+                StatusText.Foreground = new BrushConverter().ConvertFromString("Green") as SolidColorBrush;
+            }
+            else
+            {
+                StatusText.Text = $"WARNING: Schedule should be completed {App.AdvanceSchedule} days in advance";
+                StatusText.Foreground = new BrushConverter().ConvertFromString("Red") as SolidColorBrush;
+            }
+        }
+
+        private bool StatusCheck()
+        {
+            // Set Context
+            _db = new Context();
+
+            // Get today's date
+            var dateToCheck = DateTime.Today;
+
+            for (var i = 0; i < App.AdvanceSchedule; i++)
+            {
+                // Find the Day
+                var day = _db.Days.Include(o => o.Events).FirstOrDefault(o => o.Date.Equals(dateToCheck));
+                if (day == null)
+                {
+                    return false;
+                }
+
+                // Check if any Events
+                if (day.Events.Count < 1)
+                {
+                    return false;
+                }
+
+                // Increment the date
+                dateToCheck = dateToCheck.AddDays(1);
+            }
+
+            // Check was good
+            return true;
         }
 
         private void UpdateSounds()
@@ -134,6 +178,7 @@ namespace AudioScheduler
                 Owner = this
             };
             settingsWindow.ShowDialog();
+            UpdateEvents();
         }
 
         private void OpenHelp(object sender, RoutedEventArgs e)

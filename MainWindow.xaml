@@ -22,87 +22,99 @@
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0"
-              DataContext="{DynamicResource EventViewSource}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       Text="Today's Schedule"
-                       TextAlignment="Center" />
-            <DataGrid Grid.Row="1"
-                      ItemsSource="{Binding}"
-                      AutoGenerateColumns="False"
-                      CanUserReorderColumns="False"
-                      CanUserResizeColumns="False"
-                      CanUserResizeRows="False"
-                      CanUserSortColumns="False"
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridComboBoxColumn x:Name="SoundDg"
-                                            SelectedItemBinding="{Binding Sound}"
-                                            SelectedValuePath="Id"
-                                            DisplayMemberPath="Name"
-                                            Header="Sound"
-                                            Width="0.6*" />
-                    <DataGridTextColumn Binding="{Binding TimeString}"
-                                        Header="Time"
-                                        Width="0.4*" />
-                </DataGrid.Columns>
-            </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="Schedule is Good"
+                   Foreground="Green"
+                   FontWeight="Bold"
+                   TextAlignment="Center"
+                   Name="StatusText" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  DataContext="{DynamicResource EventViewSource}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="1"
+                           Text="Today's Schedule"
+                           TextAlignment="Center" />
+                <DataGrid Grid.Row="1"
+                          ItemsSource="{Binding}"
+                          AutoGenerateColumns="False"
+                          CanUserReorderColumns="False"
+                          CanUserResizeColumns="False"
+                          CanUserResizeRows="False"
+                          CanUserSortColumns="False"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridComboBoxColumn x:Name="SoundDg"
+                                                SelectedItemBinding="{Binding Sound}"
+                                                SelectedValuePath="Id"
+                                                DisplayMemberPath="Name"
+                                                Header="Sound"
+                                                Width="0.6*" />
+                        <DataGridTextColumn Binding="{Binding TimeString}"
+                                            Header="Time"
+                                            Width="0.4*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <UniformGrid Grid.Column="1"
+                         Columns="1"
+                         Rows="7">
+                <TextBlock TextAlignment="Center"
+                           Text="Currently Playing:"
+                           Margin="10 10 10 0" />
+                <TextBlock Name="TextBlock"
+                           Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Playing}"
+                           d:DataContext="{d:DesignInstance }"
+                           TextAlignment="Center"
+                           Margin="10 0 10 10" />
+                <TextBlock Text="Select a sound:"
+                           TextAlignment="Center"
+                           Margin="10 10 10 0" />
+                <ComboBox Name="SoundCb"
+                          DisplayMemberPath="Name"
+                          SelectedIndex="0"
+                          Margin="30 0 30 20" />
+                <Button Content="Play"
+                        Click="PlaySound"
+                        Margin="60 10 60 10" />
+                <Button Content="Play TTS"
+                        Click="PlayTts"
+                        Margin="60 10 60 10" />
+                <Button Content="Stop Playing"
+                        Click="StopSound"
+                        Margin="60 10 60 10" />
+            </UniformGrid>
+            <UniformGrid Grid.Column="2"
+                         Columns="1"
+                         Rows="5">
+                <Button Content="Edit Schedule"
+                        Click="OpenEditDays"
+                        Margin="20" />
+                <Button Content="Edit Sounds"
+                        Click="OpenEditSounds"
+                        Margin="20" />
+                <Button Content="Edit Templates"
+                        Click="OpenEditTemplates"
+                        Margin="20" />
+                <Button Content="Settings"
+                        Click="OpenSettings"
+                        Margin="20" />
+                <Button Content="Help"
+                        Click="OpenHelp"
+                        Margin="20" />
+            </UniformGrid>
         </Grid>
-        <UniformGrid Grid.Column="1"
-                     Columns="1"
-                     Rows="7">
-            <TextBlock TextAlignment="Center"
-                       Text="Currently Playing:"
-                       Margin="10 10 10 0" />
-            <TextBlock Name="TextBlock"
-                       Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=Playing}"
-                       d:DataContext="{d:DesignInstance }"
-                       TextAlignment="Center"
-                       Margin="10 0 10 10" />
-            <TextBlock Text="Select a sound:"
-                       TextAlignment="Center"
-                       Margin="10 10 10 0" />
-            <ComboBox Name="SoundCb"
-                      DisplayMemberPath="Name"
-                      SelectedIndex="0"
-                      Margin="30 0 30 20" />
-            <Button Content="Play"
-                    Click="PlaySound"
-                    Margin="60 10 60 10" />
-            <Button Content="Play TTS"
-                    Click="PlayTts"
-                    Margin="60 10 60 10" />
-            <Button Content="Stop Playing"
-                    Click="StopSound"
-                    Margin="60 10 60 10" />
-        </UniformGrid>
-        <UniformGrid Grid.Column="2"
-                     Columns="1"
-                     Rows="5">
-            <Button Content="Edit Schedule"
-                    Click="OpenEditDays"
-                    Margin="20" />
-            <Button Content="Edit Sounds"
-                    Click="OpenEditSounds"
-                    Margin="20" />
-            <Button Content="Edit Templates"
-                    Click="OpenEditTemplates"
-                    Margin="20" />
-            <Button Content="Settings"
-                    Click="OpenSettings"
-                    Margin="20" />
-            <Button Content="Help"
-                    Click="OpenHelp"
-                    Margin="20" />
-        </UniformGrid>
     </Grid>
 </Window>

@@ -18,6 +18,7 @@ namespace AudioScheduler
         public static readonly string SoundDirectory = Path.Combine(BaseDirectory, @"sounds\");
         private static readonly string LogDirectory = Path.Combine(BaseDirectory, @"logs\");
         public static Time NextDayStart;
+        public static int AdvanceSchedule;
         public static readonly AudioController AudioController = new AudioController();
 
         [STAThread]
@@ -58,8 +59,17 @@ namespace AudioScheduler
                 nextDayStartSetting = Setting.Get("NextDayStart");
             }
 
+            var advanceScheduleSetting = Setting.Get("AdvanceSchedule");
+            if (advanceScheduleSetting == null)
+            {
+                Setting.AddOrChange("AdvanceSchedule", "2");
+                advanceScheduleSetting = Setting.Get("AdvanceSchedule");
+            }
+
             // Get Settings
             NextDayStart = nextDayStartSetting;
+            AdvanceSchedule = int.Parse(advanceScheduleSetting);
+
 
             // Test database connection
             try

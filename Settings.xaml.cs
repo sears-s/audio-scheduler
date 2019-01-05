@@ -13,7 +13,10 @@ namespace AudioScheduler
             InitializeComponent();
 
             // Set initial NextDayStart value
-            TextBox.Text = Setting.Get("NextDayStart");
+            NextDayStartTextBox.Text = Setting.Get("NextDayStart");
+
+            // Set initial AdvanceSchedule value
+            AdvanceScheduleTextBox.Text = Setting.Get("AdvanceSchedule");
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
@@ -24,14 +27,28 @@ namespace AudioScheduler
         private void Save(object sender, RoutedEventArgs e)
         {
             // Make Time
-            Time time = TextBox.Text;
+            Time time = NextDayStartTextBox.Text;
 
             // Return if bad format
             if (time == null) return;
 
+            // Check if int
+            int advanceSchedule;
+            try
+            {
+                advanceSchedule = int.Parse(AdvanceScheduleTextBox.Text);
+            }
+            catch (Exception)
+            {
+                App.ErrorMessage("Days in advance should be a number.");
+                return;
+            }
+
             // Change the Setting
             Setting.AddOrChange("NextDayStart", time);
+            Setting.AddOrChange("AdvanceSchedule", AdvanceScheduleTextBox.Text);
             App.NextDayStart = time;
+            App.AdvanceSchedule = advanceSchedule;
             Close();
         }
 
