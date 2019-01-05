@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -68,7 +67,7 @@ namespace AudioScheduler
             UpdateSounds();
 
             // Get today's date
-            var today = DateTime.Today;
+            var today = Day.Today();
 
             // Add if needed
             Day.AddIfNotExists(today);
@@ -104,22 +103,16 @@ namespace AudioScheduler
             _db = new Context();
 
             // Get today's date
-            var dateToCheck = DateTime.Today;
+            var dateToCheck = Day.Today();
 
             for (var i = 0; i < App.AdvanceSchedule; i++)
             {
                 // Find the Day
                 var day = _db.Days.Include(o => o.Events).FirstOrDefault(o => o.Date.Equals(dateToCheck));
-                if (day == null)
-                {
-                    return false;
-                }
+                if (day == null) return false;
 
                 // Check if any Events
-                if (day.Events.Count < 1)
-                {
-                    return false;
-                }
+                if (day.Events.Count < 1) return false;
 
                 // Increment the date
                 dateToCheck = dateToCheck.AddDays(1);

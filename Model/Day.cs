@@ -50,9 +50,8 @@ namespace AudioScheduler.Model
         public static void PlayCurrent()
         {
             // Get current date and time
-            var today = DateTime.Now.Date;
+            var today = Today();
             Time now = DateTime.Now.ToString("HH:mm");
-            if (now.NextDay) today = today.AddDays(-1);
 
             // Declare the Sound
             Sound sound;
@@ -69,6 +68,15 @@ namespace AudioScheduler.Model
             if (sound == null) return;
             App.AudioController.PlaySound(sound);
             App.Log($"Sound played from schedule with name '{sound.Name}'");
+        }
+
+        // Returns current date using next day setting
+        public static DateTime Today()
+        {
+            var today = DateTime.Now.Date;
+            Time now = DateTime.Now.ToString("HH:mm");
+            if (now.NextDay) today = today.AddDays(-1);
+            return today;
         }
     }
 }

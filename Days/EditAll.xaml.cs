@@ -23,7 +23,7 @@ namespace AudioScheduler.Days
 
             // Load Events
             _eventViewSource = (CollectionViewSource) FindResource("EventViewSource");
-            Calendar.SelectedDate = DateTime.Today;
+            Calendar.SelectedDate = Day.Today();
             UpdateHighlightedDates();
         }
 
