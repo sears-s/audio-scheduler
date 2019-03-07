@@ -124,8 +124,16 @@ namespace AudioScheduler
 
         private void UpdateSounds()
         {
+            // Save currently selected Sound
+            var index = -1;
+            if (SoundCb.Items.Count > 0 && SoundCb.SelectedItem != null)
+                index = SoundCb.Items.IndexOf((Sound) SoundCb.SelectedItem);
+
             // Populate the drop down for playing Sounds
             SoundCb.ItemsSource = Sound.Fetch();
+
+            // Reload currently selected Sound
+            if (index != -1) SoundCb.SelectedItem = SoundCb.Items[index];
 
             // Populate the drop down for the DataGrid
             SoundDg.ItemsSource = Sound.Fetch(_db);
@@ -185,6 +193,7 @@ namespace AudioScheduler
 
         private void PlaySound(object sender, RoutedEventArgs e)
         {
+            // Check if no Sound selected
             if (SoundCb.SelectedItem == null)
             {
                 App.InfoMessage("No Sound", "No sound was selected to be played.");
