@@ -29,23 +29,32 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Viewbox Grid.Column="0">
-            <Calendar Name="Calendar"
-                      SelectionMode="SingleDate"
-                      SelectedDatesChanged="DateChanged"
-                      CalendarDayButtonStyle="{DynamicResource CdbKey}" />
-        </Viewbox>
-        <Grid Grid.Column="1"
-              DataContext="{DynamicResource EventViewSource}">
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0"
                        Text="Press the Delete key to remove selected event"
                        Margin="5" />
-            <DataGrid Grid.Row="1"
+            <TextBlock Grid.Row="1"
+                       Text="Close this window to save the schedule"
+                       Margin="5" />
+            <Viewbox Grid.Row="2">
+                <Calendar Name="Calendar"
+                          SelectionMode="SingleDate"
+                          SelectedDatesChanged="DateChanged"
+                          CalendarDayButtonStyle="{DynamicResource CdbKey}" />
+            </Viewbox>
+        </Grid>
+        <Grid Grid.Column="1"
+              DataContext="{DynamicResource EventViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0"
                       ItemsSource="{Binding}"
                       AutoGenerateColumns="False"
                       CanUserReorderColumns="False"
@@ -65,7 +74,7 @@
                                         Width="0.4*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <UniformGrid Grid.Row="2"
+            <UniformGrid Grid.Row="1"
                          Columns="2">
                 <Button Content="Clear"
                         Click="Clear"
