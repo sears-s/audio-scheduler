@@ -185,6 +185,12 @@ namespace AudioScheduler
 
         private void PlaySound(object sender, RoutedEventArgs e)
         {
+            if (SoundCb.SelectedItem == null)
+            {
+                App.InfoMessage("No Sound", "No sound was selected to be played.");
+                return;
+            }
+
             App.AudioController.PlaySound((Sound) SoundCb.SelectedItem);
             App.Log($"Sound played from main window with name '{((Sound) SoundCb.SelectedItem).Name}'");
         }
