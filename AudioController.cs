@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Speech.Synthesis;
+using System.Windows;
 using AudioScheduler.Model;
 using NAudio.Wave;
 
@@ -39,9 +40,17 @@ namespace AudioScheduler
         // Stop what is playing
         public void Stop()
         {
+            // Turn off stop event
+            _waveOut.PlaybackStopped -= EndSound;
+            _synthesizer.SpeakCompleted -= EndSound;
+
             // Stop file and TTS audio
             _waveOut.Stop();
             _synthesizer.SpeakAsyncCancelAll();
+
+            // Turn on stop event
+            _waveOut.PlaybackStopped += EndSound;
+            _synthesizer.SpeakCompleted += EndSound;
 
             // Change what is playing
             Playing = "None";
@@ -50,6 +59,17 @@ namespace AudioScheduler
         // Play a specified Sound
         public void PlaySound(Sound sound)
         {
+            // Check if same Sound already playing
+            if (sound.Name == Playing)
+            {
+                App.Log($"Tried to play {sound.Name} while currently it was already playing");
+                if (MessageBox.Show(
+                        $"Are you sure you want to play {sound.Name} again? Since it is currently playing, it will restart from the beginning. Click No to cancel.",
+                        "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    return;
+                App.Log($"Chose to restart {sound.Name} from beginning");
+            }
+
             // Stop playing audio
             Stop();
 
@@ -67,7 +87,7 @@ namespace AudioScheduler
             catch (Exception e)
             {
                 App.ErrorMessage("Error playing sound.", e);
-                Playing = "None";
+                Playing = "Error";
             }
         }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Sears\.Rider2018.3\config\consoles\db" t="IncludeRecursive" />
-    <e p="C:\Users\Sears\.Rider2018.3\config\extensions" t="IncludeRecursive" />
-    <e p="C:\Users\Sears\.Rider2018.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Sears\.Rider2018.3\system\resharper-host\Local\Transient\ReSharperHost\v183\SolutionCaches\_AudioScheduler.1533933465.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Sears\.Rider2019.2\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\Sears\.Rider2019.2\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\Sears\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Sears\.Rider2019.2\system\resharper-host\Local\Transient\ReSharperHost\v192\SolutionCaches\_AudioScheduler.1533933465.00" t="ExcludeRecursive" />
     <e p="C:\Users\Sears\USAFA Documents\Projects\AudioScheduler" t="IncludeRecursive">
       <e p="App.config" t="Include" />
       <e p="App.xaml" t="Include" />
